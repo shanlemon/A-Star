@@ -20,7 +20,7 @@ public class Grid extends Application {
 
 	public static int frameX = 750;
 	public static int frameY = 750;
-	public static int amountPerSide = 5;
+	public static int amountPerSide = 10;
 
 	public Node[][] node;
 
@@ -52,7 +52,7 @@ public class Grid extends Application {
 			}
 		}
 
-		setCurrentNode(node[0][0]);
+		setCurrentNode(node[5][0]);
 		setTargetNode(node[amountPerSide - 1][amountPerSide - 1]);
 
 		scene.setOnMouseDragged(new EventHandler<MouseEvent>() {
@@ -106,25 +106,33 @@ public class Grid extends Application {
 			openSet.get(i).findCosts(currentNode, targetNode);
 			// System.out.println("N: " + neighbors.get(i).fCost);
 			// System.out.println("C: " + currentNode.fCost);
-			System.out.println("1:" + (openSet.get(i).fCost < currentNode.fCost));
+			System.out.println("X: " +openSet.get(i).gridX + " Y: " +openSet.get(i).gridY + " " +(openSet.get(i).fCost < currentNode.fCost));
 			System.out.println("2:" + (openSet.get(i).hCost < currentNode.hCost && isTheLowestH(openSet, openSet.get(i))));
-			if (openSet.get(i).fCost < currentNode.fCost) {
+			if ((openSet.get(i).fCost < currentNode.fCost)
+					|| (openSet.get(i).hCost < currentNode.hCost && isTheLowestH(openSet, openSet.get(i)))) {
 				System.out.println("X: " + openSet.get(i).gridX + " Y: " + openSet.get(i).gridY);
 				setCurrentNode(openSet.get(i));
+				closedSet.add(openSet.get(i));
 				openSet.remove(openSet.get(i));
-			} else if (openSet.get(i).hCost < currentNode.hCost && isTheLowestH(openSet, openSet.get(i))) {
+				
+			}else if(isTheLowestH(openSet, openSet.get(i)) && openSet.contains(openSet.get(i))){
 				System.out.println("X: " + openSet.get(i).gridX + " Y: " + openSet.get(i).gridY);
 				setCurrentNode(openSet.get(i));
+				closedSet.add(openSet.get(i));
 				openSet.remove(openSet.get(i));
+			
 			}
-//			else{
-//				setCurrentNode(getTheLowestF(openSet));
-//				openSet.remove(getTheLowestF(openSet));
-//				break;
-//			}
+			
+
+			// else{
+			// setCurrentNode(getTheLowestF(openSet));
+			// openSet.remove(getTheLowestF(openSet));
+			// break;
+			// }
 
 		}
-
+		System.out.println("--------------------------------");
+		getNeighbors(currentNode);
 	}
 
 	// }
@@ -154,15 +162,15 @@ public class Grid extends Application {
 		int x = currentNode.gridX;
 		int y = currentNode.gridY;
 
-//		if (neighbors.size() > 0)
-//			neighbors.clear();
+		// if (neighbors.size() > 0)
+		// neighbors.clear();
 		for (int i = -1; i <= 1; i++) {
 			for (int j = -1; j <= 1; j++) {
 				if (i == 0 && j == 0) {
 					continue;
 				}
 				if (isInGrid(currentNode.gridX + i, currentNode.gridY + j))
-					if (node[currentNode.gridX + i][currentNode.gridY + j].isAvaliabe) {
+					if (node[currentNode.gridX + i][currentNode.gridY + j].isAvaliabe && !closedSet.contains(node[currentNode.gridX + i][currentNode.gridY + j])) {
 						neighbors.add(node[currentNode.gridX + i][currentNode.gridY + j]);
 						openSet.add(node[currentNode.gridX + i][currentNode.gridY + j]);
 					}
