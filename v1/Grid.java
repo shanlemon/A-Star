@@ -1,3 +1,5 @@
+package v1;
+
 import java.util.ArrayList;
 
 import javafx.animation.AnimationTimer;
@@ -74,9 +76,9 @@ public class Grid extends Application {
 		// openSet[0][0] = true;
 		targetNode = grid[2][4];
 
-		
-		
-		
+
+
+
 		scene.setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -97,7 +99,7 @@ public class Grid extends Application {
 				}
 			}
 		});
-		
+
 		scene.setOnKeyPressed(new EventHandler<KeyEvent>(){
 
 			@Override
@@ -107,7 +109,7 @@ public class Grid extends Application {
 					aStar();
 				}
 			}
-			
+
 		});
 
 		// Loop
@@ -131,17 +133,17 @@ public class Grid extends Application {
 			currentNode = openSet.get(0);
 			currentNode.setColor(Color.GREEN);
 			setHGCost();
-			
+
 			for (int i = 1; i < openSet.size(); i++) {
 				System.out.println(openSet.size());
-				if (openSet.get(i).hCost < currentNode.hCost && openSet.get(i).fCost() < currentNode.fCost() 
+				if (openSet.get(i).hCost < currentNode.hCost && openSet.get(i).fCost() < currentNode.fCost()
 						|| (openSet.get(i).fCost() == currentNode.fCost()
 						&& openSet.get(i).hCost < currentNode.hCost)) {
 					currentNode = openSet.get(i);
 					currentNode.setColor(Color.GREEN);
 					setHGCost();
 
-					
+
 				}
 			}
 			currentNode.setColor(Color.BLUE);

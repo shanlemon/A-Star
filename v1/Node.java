@@ -1,3 +1,5 @@
+package v1;
+
 import javafx.scene.Scene;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
